@@ -1,16 +1,36 @@
-<html>
-    <head>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+{% extends 'bootstrap/base.html' %}
 
-        {% block head %}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="container">
-            {% block content %}
-            {% endblock %}
+{% block title %}
+    {% if title %}{{ title }} - Trollo {% else %}Welcome to Trollo{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <h1>
+            TROLLO
+        </h1>
+        <div class="float-right">
+            <a class="btn" href="{{ url_for('main.home') }}">Home</a>
+            {% if current_user.is_anonymous %}
+                <a class="btn" href="{{ url_for('auth.login') }}">Login</a>
+            {% else %}
+                <a class="btn" href="{{ url_for('auth.logout') }}">Logout</a>
+            {% endif %}
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    </body>
-</html>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}

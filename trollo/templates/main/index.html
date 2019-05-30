@@ -1,28 +1,16 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
-{% block content %}
-        <div class="login">
-        <form action="/auth/login" method="POST" novalidate>
-            <p>
-                {{ loginform.username.label }} <br>
-                {{ loginform.username(size=32) }}
-            </p>
-            <p>
-                {{ loginform.password.label }}<br>
-                {{ loginform.password(size=32) }}
-            </p>
-            <p>
-                <label>
-                    {{ loginform.rememberme }}
-                    <span>Remember Me</span>
-                </label>
-            </p>
-            <p>
-                <button class="btn" type="submit" name="action">
-                    Submit
-                    <i class="material-icons right">send</i>
-                </button>
-            </p>
-        </form>
+{% block app_content %}
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Register</h1>
+            {{ wtf.quick_form(registerform, action=url_for('auth.register')) }}
         </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <h1>Login</h1>
+            {{ wtf.quick_form(loginform, action=url_for('auth.login')) }}
+        </div>
+    </div>
 {% endblock %}

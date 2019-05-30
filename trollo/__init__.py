@@ -1,13 +1,16 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
 from pony.flask import Pony
 from pony import orm
 from config import Config
 
 login = LoginManager()
 db = orm.Database()
+pony = Pony()
 login.login_view = 'auth.login'
 login.login_message = "Please log in"
+bootstrap = Bootstrap()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -17,8 +20,10 @@ def create_app(config_class=Config):
 
     db.bind(app.config['PONY'])
 
-    Pony(app)
+    pony.init_app(app)
     login.init_app(app)
+    bootstrap.init_app(app)
+
 
     from trollo.main import bp as main_bp
     app.register_blueprint(main_bp)

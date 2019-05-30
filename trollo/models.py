@@ -13,7 +13,6 @@ class User(db.Entity, UserMixin):
     id = PrimaryKey(int, auto=True)
     username = Required(str)
     password = Required(str)
-    salt = Required(str)
     email = Optional(str)
     project = Set('Project', reverse='owner')
     projects = Set('Project', reverse='users')
