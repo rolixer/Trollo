@@ -1,12 +1,13 @@
 from datetime import date
 from flask import current_app
+from flask_login import UserMixin
 from pony.orm import Database, Set, Required, Optional, PrimaryKey, LongStr
 
 
 db = Database()
 
 
-class User(db.Entity):
+class User(db.Entity, UserMixin):
     id = PrimaryKey(int, auto=True)
     username = Required(str)
     password = Required(str)
@@ -59,5 +60,3 @@ class Status(db.Entity):
     status = Required(str)
     change_date = Optional(date)
     tasks = Set(Task)
-
-
