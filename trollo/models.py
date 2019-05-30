@@ -2,9 +2,11 @@ from datetime import date
 from flask import current_app
 from flask_login import UserMixin
 from pony.orm import Database, Set, Required, Optional, PrimaryKey, LongStr
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
-db = Database()
+from trollo import db
+
 
 
 class User(db.Entity, UserMixin):
@@ -17,6 +19,12 @@ class User(db.Entity, UserMixin):
     projects = Set('Project', reverse='users')
     task = Set('Task', reverse='creator')
     tasks = Set('Task', reverse='users')
+
+    def set_password(self, password):
+       self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 
 class Task(db.Entity):
@@ -60,3 +68,7 @@ class Status(db.Entity):
     status = Required(str)
     change_date = Optional(date)
     tasks = Set(Task)
+
+
+
+db.generate_mapping(create_tables=True)
