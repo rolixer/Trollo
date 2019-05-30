@@ -1,0 +1,2 @@
+FLASK_APP=trollo
+FLASK_ENV=development
