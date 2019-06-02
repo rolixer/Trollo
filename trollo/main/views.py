@@ -1,7 +1,13 @@
 from trollo.main import bp
+from trollo.main.forms import NewProjectForm
+
+from trollo.auth.forms import LoginForm, RegisterForm
+
 from flask import render_template, redirect, url_for
 from flask_login import login_required, current_user
-from trollo.auth.forms import LoginForm, RegisterForm
+
+from trollo import db, models
+
 
 @bp.route('/')
 @bp.route('/index')
@@ -13,14 +19,14 @@ def index():
     return render_template('main/index.html', loginform = login_form, \
         registerform = register_form)
 
-@bp.route('/home')
+@bp.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template('main/home.html')
+    projects = db.Project.select(lambda p: p.owner == current_user)
+    form = NewProjectForm()
+    if form.validate_on_submit():
+        db.Project(name = form.name.data, description = form.decription.data, \
+            owner = current_user.id)
+        return redirect(url_for('main.home'))
 
-
-
-# @bp.route('/project/<int: id>')
-# @bp.route('/add/<int: list_id>')
-# @bp.route('/remove')
-# @bp.route('/')
+    return render_template('main/home.html', form = form, projects = projects)

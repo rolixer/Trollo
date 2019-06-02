@@ -31,6 +31,9 @@ def create_app(config_class=Config):
     from trollo.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
+    from trollo.project import bp as project_bp
+    app.register_blueprint(project_bp)
+
 
     return app
 

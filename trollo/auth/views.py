@@ -30,7 +30,7 @@ def login():
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    if current_user is not None:
+    if not current_user.is_anonymous:
         return redirect(url_for('main.home'))
     if form.validate_on_submit():
         user = db.User(username = form.username.data, email = form.email.data, password=generate_password_hash(form.password.data))
