@@ -1,9 +1,9 @@
 from trollo.auth import bp
-from trollo.main.forms import LoginForm, RegisterForm
+from trollo.auth.forms import LoginForm, RegisterForm
 from trollo import db, models
 
 from flask import request, flash, redirect, url_for, render_template
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.urls import url_parse
@@ -40,6 +40,7 @@ def register():
     return render_template('auth/register.html', registerform = form)
 
 @bp.route('/logout', methods=['GET', 'POST'])
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('main.index'))

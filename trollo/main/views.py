@@ -1,7 +1,7 @@
 from trollo.main import bp
 from flask import render_template, redirect, url_for
 from flask_login import login_required, current_user
-from .forms import LoginForm, RegisterForm
+from trollo.auth.forms import LoginForm, RegisterForm
 
 @bp.route('/')
 @bp.route('/index')
