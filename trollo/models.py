@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from flask import current_app
 from flask_login import UserMixin
 from pony.orm import Database, Set, Required, Optional, PrimaryKey, LongStr
@@ -11,7 +11,7 @@ from trollo import db
 
 class User(db.Entity, UserMixin):
     id = PrimaryKey(int, auto=True)
-    username = Required(str)
+    username = Required(str, unique = True)
     password = Required(str)
     email = Optional(str)
     project = Set('Project', reverse='owner')
@@ -29,12 +29,12 @@ class User(db.Entity, UserMixin):
 class Task(db.Entity):
     id = PrimaryKey(int, auto=True)
     creator = Required(User, reverse='task')
-    task_text = Optional(LongStr)
+    task_text = Required(LongStr)
     users = Set(User, reverse='tasks')
     status = Required('Status')
     list = Required('List')
-    add_date = Required(date)
-    due_date = Optional(date)
+    add_date = Required(datetime)
+    due_date = Optional(datetime)
 
 
 class Project(db.Entity):
@@ -59,13 +59,13 @@ class Note(db.Entity):
     id = PrimaryKey(int, auto=True)
     note = Required(LongStr)
     list = Required(List)
-    add_date = Required(date)
+    add_date = Required(datetime)
 
 
 class Status(db.Entity):
     id = PrimaryKey(int, auto=True)
     status = Required(str)
-    change_date = Optional(date)
+    change_date = Optional(datetime)
     tasks = Set(Task)
 
 

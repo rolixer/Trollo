@@ -2,6 +2,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
+<div class="container">
     <div class="row">
         <div class="col-md-3">
             {{ wtf.quick_form(form) }}
@@ -14,4 +15,5 @@
                 </div>
             {% endfor %}
     </div>
+</div>
 {% endblock %}

@@ -2,6 +2,8 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
+<div class="container">
+
     <div class="row">
         <div class="col-md-4">
             <h1>Register</h1>
@@ -13,4 +15,5 @@
             {{ wtf.quick_form(loginform, action=url_for('auth.login')) }}
         </div>
     </div>
+</div>
 {% endblock %}
