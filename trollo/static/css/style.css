@@ -3,4 +3,8 @@
 }
 .row-fluid .col-md-3{
      display: inline-grid;
+     float: none;
+}
+.scroll-row {
+     overflow: auto;
 }

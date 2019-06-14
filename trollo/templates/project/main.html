@@ -16,13 +16,15 @@
     <p> {{ project.description }} </p>
 </div>
 <div class="row-fluid">
-    <div class="col-md-3">
+    <div class="col-md-1">
         {{ wtf.quick_form(form, action = url_for('project.add_list', p_id = project.id)) }}
     </div>
+    <div class="scroll-row">
     {% for list in project.lists | sort(attribute = 'id') %}
         <div class="col-md-3">
             {% include 'project/_list.html' %}
         </div>
     {% endfor %}
+    </div>
 </div>
 {% endblock %}
