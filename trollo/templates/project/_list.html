@@ -2,10 +2,10 @@
 
 <h4>{{ list.name }}</h4>
 
-{% for note in list.notes %}
+{% for note in list.notes | sort(attribute = 'id') %}
     {% include 'project/_note.html' %} <br>
 {% endfor %}
-{% for task in list.tasks %}
+{% for task in list.tasks | sort(attribute = 'id') %}
     {% include 'project/_task.html' %} <br>
 {% endfor %}
 

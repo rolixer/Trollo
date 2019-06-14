@@ -12,12 +12,14 @@ from trollo import db, models
 @bp.route('/project/<id>')
 def project(id):
     project = db.Project.get(id = id)
+    lists = db.List.select(lambda l: l.project == project)
     form = NewListForm()
 
     noteForm = NewNoteForm()
     taskForm = NewTaskForm()
 
     return render_template('project/main.html', project = project, \
+         lists = lists, \
          title = project.name, form = form, \
          noteForm = noteForm, taskForm = taskForm)
 
