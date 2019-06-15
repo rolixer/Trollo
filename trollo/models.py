@@ -1,5 +1,4 @@
 from datetime import datetime
-from flask import current_app
 from flask_login import UserMixin
 from pony.orm import Database, Set, Required, Optional, PrimaryKey, LongStr
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -16,6 +15,8 @@ class User(db.Entity, UserMixin):
     email = Optional(str)
     project = Set('Project', reverse='owner')
     projects = Set('Project', reverse='users')
+    lists = Set('List', reverse = 'user')
+    notes = Set('Note', reverse = 'user')
     task = Set('Task', reverse='creator')
     tasks = Set('Task', reverse='users')
 
@@ -24,7 +25,6 @@ class User(db.Entity, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-
 
 class Task(db.Entity):
     id = PrimaryKey(int, auto=True)
@@ -63,6 +63,8 @@ class Note(db.Entity):
     user = Required(User)
     add_date = Required(datetime)
 
+    def edit_note(self, new_note):
+        self.note = new_note
 
 class Status(db.Entity):
     id = PrimaryKey(int, auto=True)
