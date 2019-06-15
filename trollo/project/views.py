@@ -29,7 +29,7 @@ def add_list(p_id):
     form = NewListForm()
 
     if form.validate_on_submit():
-        db.List(name = form.name.data, project = p_id )
+        db.List(name = form.name.data, project = p_id, user = current_user )
     else:
         flash('List already exists')
 
@@ -41,7 +41,8 @@ def add_note(l_id):
     form = NewNoteForm()
     project = db.List.get(id = l_id).project
     if form.validate_on_submit():
-        db.Note(note = form.note.data, list = l_id, add_date = datetime.now())
+        db.Note(note = form.note.data, list = l_id, user = current_user, \
+             add_date = datetime.now())
 
     return redirect(url_for('project.project', id = project.id))
 

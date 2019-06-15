@@ -25,7 +25,8 @@ def home():
     projects = db.Project.select(lambda p: p.owner == current_user)
     form = NewProjectForm()
     if form.validate_on_submit():
-        project = db.Project(name = form.name.data, description = form.decription.data, \
+        project = db.Project(name = form.name.data, \
+            description = form.decription.data, \
             owner = current_user.id)
         project.users += db.User.get(id = current_user.id)
         return redirect(url_for('main.home'))

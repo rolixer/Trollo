@@ -51,6 +51,7 @@ class List(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Required(str, 25)
     project = Required(Project)
+    user = Required(User)
     tasks = Set(Task)
     notes = Set('Note')
 
@@ -59,6 +60,7 @@ class Note(db.Entity):
     id = PrimaryKey(int, auto=True)
     note = Required(LongStr)
     list = Required(List)
+    user = Required(User)
     add_date = Required(datetime)
 
 
