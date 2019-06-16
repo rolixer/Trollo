@@ -63,11 +63,22 @@ def edit_card(c_id):
     card = db.Card.get(id = c_id)
 
     if form.validate_on_submit():
-        card.set(card_text = form.card.data)
+        if form.status.data is not None:
+            if card.status is None:
+                status = db.Status(status = form.status.data, change_date = datetime.now().date())
+            else:
+                if card.status.status == form.status.data:
+                    status = card.status
+                else:
+                    status = db.Status(status = form.status.data, change_date = datetime.now().date())
+        card.set(card_text = form.card.data, due_date = form.due_date.data, status = status)
 
         return redirect(url_for('project.project', id = project.id))
 
     form.card.data = card.card_text
+    if card.status is not None:
+        form.status.data = card.status.status
+    form.due_date.data = card.due_date
     form.submit.label.text = "Save"
 
 

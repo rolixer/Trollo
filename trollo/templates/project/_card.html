@@ -1,9 +1,21 @@
-{{ card.card_text }}
-<br>
-<p class="text-right">
-{{ card.add_date.date() }}
-</p>
-<br>
-<hr>
-<a href="{{ url_for('project.edit_card', c_id = card.id ) }}" class="btn btn-sm btn-secondary">Edit</a>
-<a href="{{ url_for('project.remove_card', c_id = card.id ) }}" class="btn btn-sm btn-secondary">Delete</a>
+<span class="border border-primary">
+    {{ card.card_text }}
+    <br><br>
+    {% if card.status %}
+      Status:  {{ card.status.status }}
+    {% endif %}
+    <br>
+    <p class="text-right">
+     Added: {{ card.add_date }}
+    </p>
+    {% if card.due_date %}
+    <p class="text-right">
+        Due date: {{ card.due_date }}
+    </p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('project.edit_card', c_id = card.id ) }}" class="btn btn-sm btn-secondary">Edit</a>
+    <a href="{{ url_for('project.remove_card', c_id = card.id ) }}" class="btn btn-sm btn-secondary">Delete</a>
+    <hr>
+</span>

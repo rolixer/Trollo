@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, DateField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Optional
@@ -21,5 +22,9 @@ class EditCardForm(FlaskForm):
     card = TextAreaField('', validators=[DataRequired()])
     status = StringField('Status', validators=[Optional()])
     due_date = DateField('Due date', validators=[Optional()])
+
+    def validate_due_date(self, date):
+        if date.data < datetime.now().date():
+            raise ValidationError()
 
     submit = SubmitField("Save")

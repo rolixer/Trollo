@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from flask_login import UserMixin
 from pony.orm import Database, Set, Required, Optional, PrimaryKey, LongStr
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -32,8 +32,8 @@ class Card(db.Entity):
     users = Set(User, reverse='cards')
     status = Optional('Status')
     list = Required('List')
-    add_date = Required(datetime)
-    due_date = Optional(datetime)
+    add_date = Required(date)
+    due_date = Optional(date)
 
 
 class Project(db.Entity):
@@ -53,13 +53,10 @@ class List(db.Entity):
     user = Required(User)
     cards = Set('Card')
 
-
-
-
 class Status(db.Entity):
     id = PrimaryKey(int, auto=True)
     status = Required(str)
-    change_date = Optional(datetime)
+    change_date = Optional(date)
     card = Set('Card')
 
 
