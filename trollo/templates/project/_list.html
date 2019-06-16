@@ -2,12 +2,9 @@
 
 <h4>{{ list.name }}</h4>
 <br>
-{{ wtf.quick_form(noteForm, action = url_for('project.add_note', l_id = list.id)) }}
-{{ wtf.quick_form(taskForm, action = url_for('project.add_task', l_id = list.id)) }}
 <hr>
-{% for note in list.notes | sort(attribute = 'id') %}
-    {% include 'project/_note.html' %} <br>
+{% for card in list.cards | sort(attribute = 'id') %}
+    {% include 'project/_card.html' %} <br>
 {% endfor %}
-{% for task in list.tasks | sort(attribute = 'id') %}
-    {% include 'project/_task.html' %} <br>
-{% endfor %}
+
+{{ wtf.quick_form(cardForm, action = url_for('project.add_card', l_id = list.id)) }}

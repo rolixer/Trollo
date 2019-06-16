@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, DateField, SubmitField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired, ValidationError, Optional
 
 from trollo import models, db
 
@@ -13,11 +13,13 @@ class NewListForm(FlaskForm):
         if list is not None:
             raise ValidationError('List already exists')
 
-class NewNoteForm(FlaskForm):
-    note = TextAreaField('Note')
-    submit = SubmitField('Add new note')
+class NewCardForm(FlaskForm):
+    card = TextAreaField('', validators=[DataRequired()])
+    submit = SubmitField('Add new card')
 
-class NewTaskForm(FlaskForm):
-    task = TextAreaField('Task')
-    due_date = DateField('Due date')
-    submit = SubmitField('Add new task')
+class EditCardForm(FlaskForm):
+    card = TextAreaField('', validators=[DataRequired()])
+    status = StringField('Status', validators=[Optional()])
+    due_date = DateField('Due date', validators=[Optional()])
+
+    submit = SubmitField("Save")

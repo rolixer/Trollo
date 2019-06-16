@@ -11,7 +11,7 @@
             {{ project.description }}
         </p>
 
-        {{ wtf.quick_form(form, action = url_for('project.edit_note', n_id = id)) }}
+        {{ wtf.quick_form(form, action = url_for('project.edit_card', c_id = id)) }}
     </div>
 
 {% endblock %}

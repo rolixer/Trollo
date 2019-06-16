@@ -1,15 +1,22 @@
 .row-fluid{
      white-space: nowrap;
 }
+
 .row-fluid .col-md-3{
      display: inline-grid;
      float: none;
 }
+
+.row-fluid .col-md-2{
+     display: inline-grid;
+     float: none;
+}
+
 .scroll-row {
      overflow: auto;
 }
 
 .list {
      overflow-y: scroll;
-     height: 500px;
+     max-height: 70vh;
 }

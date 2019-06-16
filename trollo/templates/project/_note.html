@@ -1,9 +1,0 @@
-{{ note.note }}
-<br>
-<p class="text-right">
-{{ note.add_date.date() }}
-</p>
-<br>
-<hr>
-<a href="{{ url_for('project.edit_note', n_id = note.id ) }}" class="btn btn-sm btn-secondary">Edit</a>
-<a href="{{ url_for('project.remove_note', n_id = note.id ) }}" class="btn btn-sm btn-secondary">Delete</a>

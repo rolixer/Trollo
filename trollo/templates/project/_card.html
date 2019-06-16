@@ -1,0 +1,9 @@
+{{ card.card_text }}
+<br>
+<p class="text-right">
+{{ card.add_date.date() }}
+</p>
+<br>
+<hr>
+<a href="{{ url_for('project.edit_card', c_id = card.id ) }}" class="btn btn-sm btn-secondary">Edit</a>
+<a href="{{ url_for('project.remove_card', c_id = card.id ) }}" class="btn btn-sm btn-secondary">Delete</a>

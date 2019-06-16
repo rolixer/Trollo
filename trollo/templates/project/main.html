@@ -9,23 +9,23 @@
 {% endblock %}
 
 {% block app_content %}
-<div class="container text-center">
+<div class="text-center">
+
     <h3>
         {{ project.name }}
     </h3><br>
     <p> {{ project.description }} </p>
 </div>
 <div class="row-fluid">
-    <div class="col-md-2">
-        {{ wtf.quick_form(form, action = url_for('project.add_list', p_id = project.id)) }}
-    </div>
-    <div class="scroll-row col-md-9">
+    <div class="scroll-row">
     {% for list in project.lists | sort(attribute = 'id') %}
         <div class="col-md-3 list">
             {% include 'project/_list.html' %}
         </div>
     {% endfor %}
+        <div class="col-md-2">
+            {{ wtf.quick_form(form, action = url_for('project.add_list', p_id = project.id)) }}
+        </div>
     </div>
 </div>
-<div class="row"></div>
 {% endblock %}

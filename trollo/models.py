@@ -16,9 +16,8 @@ class User(db.Entity, UserMixin):
     project = Set('Project', reverse='owner')
     projects = Set('Project', reverse='users')
     lists = Set('List', reverse = 'user')
-    notes = Set('Note', reverse = 'user')
-    task = Set('Task', reverse='creator')
-    tasks = Set('Task', reverse='users')
+    card = Set('Card', reverse='creator')
+    cards = Set('Card', reverse='users')
 
     def set_password(self, password):
        self.password = generate_password_hash(password)
@@ -26,12 +25,12 @@ class User(db.Entity, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-class Task(db.Entity):
+class Card(db.Entity):
     id = PrimaryKey(int, auto=True)
-    creator = Required(User, reverse='task')
-    task_text = Required(LongStr)
-    users = Set(User, reverse='tasks')
-    status = Required('Status')
+    creator = Required(User, reverse='card')
+    card_text = Required(LongStr)
+    users = Set(User, reverse='cards')
+    status = Optional('Status')
     list = Required('List')
     add_date = Required(datetime)
     due_date = Optional(datetime)
@@ -52,25 +51,16 @@ class List(db.Entity):
     name = Required(str, 25)
     project = Required(Project)
     user = Required(User)
-    tasks = Set(Task)
-    notes = Set('Note')
+    cards = Set('Card')
 
 
-class Note(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    note = Required(LongStr)
-    list = Required(List)
-    user = Required(User)
-    add_date = Required(datetime)
 
-    def edit_note(self, new_note):
-        self.note = new_note
 
 class Status(db.Entity):
     id = PrimaryKey(int, auto=True)
     status = Required(str)
     change_date = Optional(datetime)
-    tasks = Set(Task)
+    card = Set('Card')
 
 
 
