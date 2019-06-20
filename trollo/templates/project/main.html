@@ -8,6 +8,25 @@
       href="{{url_for('static', filename='css/style.css')}}">
 {% endblock %}
 
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <h1>
+        TROLLO
+    </h1>
+    <div class="float-right">
+        <a class="btn" href="{{ url_for('main.home') }}">Home</a>
+        {% if current_user.is_anonymous %}
+            <a class="btn" href="{{ url_for('auth.login') }}">Login</a>
+            <a class="btn" href="{{ url_for('auth.register') }}">Register</a>
+        {% else %}
+            <a class="btn" href="{{ url_for('auth.logout') }}">Logout</a>
+        {% endif %}
+        <a href="{{ url_for('project.users', p_id = project.id) }}" class="btn">Users</a>
+    </div>
+</nav>
+{% endblock %}
+
+
 {% block app_content %}
 <div class="text-center">
 
@@ -16,6 +35,7 @@
     </h3><br>
     <p> {{ project.description }} </p>
 </div>
+
 <div class="row-fluid">
     <div class="scroll-row">
     {% for list in project.lists | sort(attribute = 'id') %}
@@ -23,9 +43,11 @@
             {% include 'project/_list.html' %}
         </div>
     {% endfor %}
+    {% if current_user == project.owner %}
         <div class="col-md-2">
             {{ wtf.quick_form(form, action = url_for('project.add_list', p_id = project.id)) }}
         </div>
+    {% endif %}
     </div>
 </div>
 {% endblock %}

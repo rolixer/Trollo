@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from trollo.project import bp
-from trollo.project.forms import NewListForm, NewCardForm, EditCardForm
+from trollo.project.forms import NewListForm, NewCardForm, EditCardForm, AddUserForm
 
 from flask import flash, render_template, redirect, url_for
 from flask_login import login_required, current_user
@@ -25,6 +25,14 @@ def project(id):
         return redirect(url_for('main.home'))
 
 @login_required
+@bp.route('/remove_project/<id>')
+def remove_project(id):
+    db.Project.get(id = id).delete()
+
+    return redirect(url_for('main.home'))
+
+
+@login_required
 @bp.route('/add_list/<p_id>', methods=['GET', 'POST'])
 def add_list(p_id):
     form = NewListForm()
@@ -35,6 +43,15 @@ def add_list(p_id):
         flash('List already exists')
 
     return redirect(url_for('project.project', id = p_id))
+
+@login_required
+@bp.route('/remove_list/<l_id>')
+def remove_list(l_id):
+    project = db.List.get(id = l_id).project
+    db.List.get(id = l_id).delete()
+
+    return redirect(url_for('project.project', id = project.id))
+
 
 @login_required
 @bp.route('/add_card/<l_id>', methods=['GET', 'POST'])
@@ -63,7 +80,7 @@ def edit_card(c_id):
     card = db.Card.get(id = c_id)
 
     if form.validate_on_submit():
-        if form.status.data is not None:
+        if form.status.data is not "":
             if card.status is None:
                 status = db.Status(status = form.status.data, change_date = datetime.now().date())
             else:
@@ -71,7 +88,9 @@ def edit_card(c_id):
                     status = card.status
                 else:
                     status = db.Status(status = form.status.data, change_date = datetime.now().date())
-        card.set(card_text = form.card.data, due_date = form.due_date.data, status = status)
+            card.set(card_text = form.card.data, due_date = form.due_date.data, status = status)
+
+        card.set(card_text = form.card.data, due_date = form.due_date.data)
 
         return redirect(url_for('project.project', id = project.id))
 
@@ -84,3 +103,15 @@ def edit_card(c_id):
 
     return render_template('project/edit_card.html' \
         , project = project, form = form, id = c_id)
+
+@login_required
+@bp.route('/users/<p_id>', methods=['GET', 'POST'])
+def users(p_id):
+    project = db.Project.get(id = p_id)
+
+    form = AddUserForm()
+
+    if form.validate_on_submit():
+        project.users += db.User.get(username = form.user.data)
+    return render_template('project/users.html', project = project, \
+        current_user = current_user, form = form)

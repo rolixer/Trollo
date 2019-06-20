@@ -1,6 +1,11 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
-<h4>{{ list.name }}</h4>
+<h4>
+    {{ list.name }}
+    {% if current_user == project.owner %}
+        <a href="{{ url_for('project.remove_list', l_id = list.id) }}" class="btn btn-sm float-right btn-danger">X</a>
+    {% endif %}
+</h4>
 <br>
 <hr>
 {% for card in list.cards | sort(attribute = 'id') %}

@@ -25,6 +25,16 @@ class EditCardForm(FlaskForm):
 
     def validate_due_date(self, date):
         if date.data < datetime.now().date():
-            raise ValidationError()
+            raise ValidationError('Due date can\'t be in past')
 
     submit = SubmitField("Save")
+
+class AddUserForm(FlaskForm):
+    user = StringField('Username', validators=[DataRequired()])
+    submit = SubmitField('Add new user')
+
+    def validate_user(self, user):
+        user = db.User.get(username = user.data)
+
+        if user is None:
+            raise ValidationError('User don\'t exists')
