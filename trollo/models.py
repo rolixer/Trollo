@@ -50,7 +50,6 @@ class List(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Required(str, 25)
     project = Required(Project)
-    user = Required(User)
     cards = Set('Card')
 
 class Status(db.Entity):
