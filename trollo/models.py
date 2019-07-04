@@ -15,7 +15,6 @@ class User(db.Entity, UserMixin):
     email = Optional(str)
     project = Set('Project', reverse='owner')
     projects = Set('Project', reverse='users')
-    lists = Set('List', reverse = 'user')
     card = Set('Card', reverse='creator')
     cards = Set('Card', reverse='users')
 
