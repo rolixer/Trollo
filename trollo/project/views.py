@@ -105,7 +105,7 @@ def edit_card(c_id):
         , project = project, form = form, id = c_id)
 
 @login_required
-@bp.route('/users/<p_id>', methods=['GET', 'POST'])
+@bp.route('/project/<p_id>/users', methods=['GET', 'POST'])
 def users(p_id):
     project = db.Project.get(id = p_id)
 
@@ -115,3 +115,24 @@ def users(p_id):
         project.users += db.User.get(username = form.user.data)
     return render_template('project/users.html', project = project, \
         current_user = current_user, form = form)
+
+@login_required
+@bp.route('/project/<p_id>/remove_user/<u_id>')
+def remove_user(p_id, u_id):
+    project = db.Project.get(id = p_id)
+    user = db.User.get(id = u_id)
+
+    project.users -= user
+
+    return redirect(url_for('project.project', id = project.id))
+
+
+@login_required
+@bp.route('/quit_project/<p_id>')
+def quit_project(p_id):
+    project = db.Project.get(id = p_id)
+    user = db.User.get(id = current_user.id)
+
+    project.users -= user
+
+    return redirect(url_for('main.home'))

@@ -29,7 +29,14 @@
             <li>Users in project:</li>
             <li>Owner: {{ project.owner.username }}</li>
             {% for user in project.users | sort(attribute = 'username') %}
-                <li>{{ user.username }}</li>
+                {% if (user != project.owner) %}
+                <li>
+                    {{ user.username }}
+                    {% if current_user == project.owner %}
+                         <a href="{{ url_for('project.remove_user', p_id = project.id, u_id = user.id) }}" class="btn btn-sm btn-alert">Remove</a>
+                    {% endif %}
+                </li>
+                {% endif %}
             {% endfor %}
         </ul>
         {% if current_user == project.owner %}

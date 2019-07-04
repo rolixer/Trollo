@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="row">
-            {% for project in projects %}
+            {% for project in projects | sort(attribute = 'id') %}
                 <div class="col-md-3">
                     {% include 'main/_project.html' %}
                 </div>

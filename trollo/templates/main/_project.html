@@ -10,7 +10,7 @@
         {% if current_user == project.owner %}
             <a href="{{ url_for('project.remove_project', id = project.id) }}" class="btn btn-sm btn-danger">X</a>
         {% else %}
-            <a href="#" class="btn btn-sm btn-succes">Quit</a>
+            <a href="{{ url_for('project.quit_project', p_id = project.id) }}" class="btn btn-sm btn-succes">Quit</a>
         {% endif %}
     </div>
 </div>
