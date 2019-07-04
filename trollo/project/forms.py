@@ -9,10 +9,6 @@ class NewListForm(FlaskForm):
     name = StringField('Name')
     submit = SubmitField('Add new list')
 
-    def validate_name(self, name):
-        list = db.List.get(name = name.data)
-        if list is not None:
-            raise ValidationError('List already exists')
 
 class NewCardForm(FlaskForm):
     card = TextAreaField('', validators=[DataRequired()])

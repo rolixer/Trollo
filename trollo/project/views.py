@@ -38,7 +38,7 @@ def add_list(p_id):
     form = NewListForm()
 
     if form.validate_on_submit():
-        db.List(name = form.name.data, project = p_id, user = current_user )
+        db.List(name = form.name.data, project = p_id)
     else:
         flash('List already exists')
 
